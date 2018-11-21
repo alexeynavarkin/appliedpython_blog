@@ -1,0 +1,101 @@
+id,name,User_id
+1,Product Management,300
+2,Legal,343
+3,Marketing,848
+4,Sales,952
+5,Marketing,67
+6,Business Development,544
+7,Research and Development,626
+8,Support,679
+9,Research and Development,829
+10,Business Development,295
+11,Legal,777
+12,Engineering,438
+13,Sales,330
+14,Product Management,436
+15,Services,913
+16,Accounting,715
+17,Support,849
+18,Accounting,518
+19,Sales,89
+20,Product Management,687
+21,Engineering,693
+22,Business Development,546
+23,Accounting,171
+24,Product Management,437
+25,Human Resources,924
+26,Support,797
+27,Marketing,215
+28,Legal,513
+29,Support,32
+30,Engineering,130
+31,Human Resources,418
+32,Product Management,235
+33,Sales,636
+34,Training,541
+35,Marketing,757
+36,Engineering,367
+37,Product Management,658
+38,Services,938
+39,Training,442
+40,Legal,607
+41,Services,198
+42,Services,869
+43,Sales,368
+44,Sales,652
+45,Training,631
+46,Marketing,362
+47,Sales,889
+48,Services,595
+49,Product Management,702
+50,Support,370
+51,Engineering,177
+52,Engineering,533
+53,Human Resources,977
+54,Business Development,232
+55,Legal,106
+56,Legal,82
+57,Accounting,23
+58,Human Resources,62
+59,Services,831
+60,Services,484
+61,Sales,219
+62,Marketing,652
+63,Services,698
+64,Marketing,41
+65,Research and Development,939
+66,Sales,608
+67,Legal,681
+68,Legal,77
+69,Product Management,560
+70,Research and Development,322
+71,Accounting,921
+72,Human Resources,171
+73,Services,73
+74,Marketing,268
+75,Accounting,60
+76,Business Development,460
+77,Support,153
+78,Business Development,822
+79,Business Development,350
+80,Human Resources,23
+81,Services,831
+82,Engineering,892
+83,Sales,93
+84,Sales,984
+85,Legal,329
+86,Business Development,358
+87,Training,785
+88,Engineering,686
+89,Support,570
+90,Human Resources,662
+91,Training,379
+92,Engineering,391
+93,Legal,325
+94,Legal,229
+95,Product Management,726
+96,Legal,122
+97,Engineering,233
+98,Support,912
+99,Business Development,939
+100,Services,305
