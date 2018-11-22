@@ -1,18 +1,60 @@
-from .safe_cursor import SafeCursorMeta
+from .blog_tools import SafeCursorMeta, require_auth
+
 
 class Blog(metaclass=SafeCursorMeta):
-    def blog_create(self):
-        pass
+    def __init__(self, connection, blogs=None):
+        # TODO: move to parent class
+        self._connection = connection
+        self._blogs = blogs
 
-    def blog_edit(self):
-        pass
+    def check_auth(self):
+        # TODO: move to parent class
+        if not self._blogs._user:
+            raise RuntimeError("Unauthorised.")
 
+    def check_auth_blog(self, blog_id, cursor=None):
+        # TODO: move to parent class
+        self.check_auth()
+        sql = "SELECT User_id FROM Blog WHERE id=%s"
+        cursor.execute(sql, blog_id)
+        if cursor.rowcount:
+            blog_user = cursor.fetchone()
+            if not blog_user["User_id"] == self._blogs._user["id"]:
+                raise ValueError("Only owner can modify blog.")
+        else:
+            raise ValueError("No Blog with such name.")
 
-    def blog_delete(self):
-        pass
+    def create(self, blog_name, cursor=None):
+        # TODO: probably allow duplicate blog names so allow delete only on key
+        self.check_auth()
+        sql = "SELECT * FROM Blog WHERE name=%s"
+        cursor.execute(sql, blog_name)
+        if not cursor.rowcount:
+            sql = "INSERT INTO Blog (name, user_id) VALUES (%s, %s)"
+            cursor.execute(sql, (blog_name, self._blogs._user["username"]))
+        else:
+            raise ValueError("Blog with such name already exists.")
 
-    def blog_list(self):
-        pass
+    def edit(self, blog_id, new_blog_name, cursor=None):
+        self.check_auth_blog(blog_id)
+        sql = "UPDATE Blog SET name=%s WHERE id=%s"
+        cursor.execute(sql,(new_blog_name, blog_id))
+        if not cursor.rowcount:
+            raise ValueError("No Blog with such id. Nothing renamed.")
 
-    def blog_list_user(self):
-        pass
+    def delete(self, blog_id, cursor=None):
+        self.check_auth_blog(blog_id)
+        sql = "DELETE FROM Blog WHERE blog_id=%s"
+        cursor.execute(sql, blog_id)
+        if not cursor.rowcount:
+            raise ValueError("No Blog with such name.")
+
+    def list(self, cursor=None):
+        sql = "SELECT * FROM Blog"
+        cursor.execute(sql)
+        return cursor.fetchall()
+
+    def list_user(self, user_name, cursor=None):
+        sql = "SELECT * FROM Blog b JOIN User u ON b.User_id=u.id WHERE username=%s"
+        cursor.execute(sql, user_name)
+        return cursor.fetchall()

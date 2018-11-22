@@ -26,6 +26,22 @@ class TestUser(TestCase):
                             for user in users))
 
     def test_user_auth(self):
+        # TODO: check with patch
         b = blog.Blogs()
         b.init()
-        users = b.user.list()
+        b.auth("test_user", "test_password")
+        self.assertTrue(b._session)
+        self.assertTrue(b._user)
+
+
+class TestBlog(TestCase):
+    blog.truncate_table("Blog")
+    blog.apply_csv("Blog", "blog/MOCK_DATA/Blog/BLOG_MOCK_DATA.csv")
+
+    def test_blog(self):
+        b = blog.Blogs()
+        b.init()
+        with self.assertRaises(RuntimeError):
+            b.blog.edit(2, "Hmmm")
+        b.auth("btaunton1u", "yudD6qmd5I")
+        b.blog.edit(5, "Hmmm")
