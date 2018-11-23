@@ -27,7 +27,6 @@ class SafeCursorMeta(type):
         new_class_dict = {}
         for attribute_name, attribute in class_dict.items():
             if isinstance(attribute, FunctionType):
-                print(attribute.__code__.co_varnames)
                 if "cursor" in attribute.__code__.co_varnames[:attribute.__code__.co_argcount]:
                     attribute = safe_cursor(attribute)
             new_class_dict[attribute_name] = attribute

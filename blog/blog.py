@@ -13,7 +13,6 @@ class Blog(metaclass=SafeCursorMeta):
             raise RuntimeError("Unauthorised.")
 
     def check_auth_blog(self, blog_id, cursor=None):
-        # TODO: move to parent class
         self.check_auth()
         sql = "SELECT User_id FROM Blog WHERE id=%s"
         cursor.execute(sql, blog_id)
@@ -44,17 +43,18 @@ class Blog(metaclass=SafeCursorMeta):
 
     def delete(self, blog_id, cursor=None):
         self.check_auth_blog(blog_id)
-        sql = "DELETE FROM Blog WHERE blog_id=%s"
+        sql = "UPDATE Blog SET deleted=True WHERE id=%s;"
         cursor.execute(sql, blog_id)
         if not cursor.rowcount:
             raise ValueError("No Blog with such name.")
 
     def list(self, cursor=None):
-        sql = "SELECT * FROM Blog"
+        sql = "SELECT * FROM Blog WHERE NOT deleted"
         cursor.execute(sql)
         return cursor.fetchall()
 
-    def list_user(self, user_name, cursor=None):
-        sql = "SELECT * FROM Blog b JOIN User u ON b.User_id=u.id WHERE username=%s"
-        cursor.execute(sql, user_name)
+    def list_user(self, cursor=None):
+        self.check_auth()
+        sql = "SELECT * FROM Blog WHERE User_id=%s AND NOT deleted"
+        cursor.execute(sql, self._blogs._user["id"])
         return cursor.fetchall()

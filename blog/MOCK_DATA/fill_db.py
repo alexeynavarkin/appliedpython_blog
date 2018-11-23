@@ -100,10 +100,7 @@ if __name__ == "__main__":
               {"table_name": "Post", "file_name": "Post/POST_MOCK_DATA.csv"},
               {"table_name": "BlogPost", "file_name": "BlogPost/BLOGPOST_MOCK_DATA.csv"},
               {"table_name": "Comment", "file_name": "Comment/COMMENT_MOCK_DATA.csv"},)
-    try:
-        create_structure()
-        for table in tables:
-            print(f"Filling {table['table_name']}.")
-            apply_csv(**table)
-    finally:
-        connection.close()
+    create_structure()
+    for table in tables:
+        print(f"Filling {table['table_name']}.")
+        apply_csv(**table)

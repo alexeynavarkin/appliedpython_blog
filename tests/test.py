@@ -45,3 +45,17 @@ class TestBlog(TestCase):
             b.blog.edit(2, "Hmmm")
         b.auth("btaunton1u", "yudD6qmd5I")
         b.blog.edit(5, "Hmmm")
+
+    def test_delete_unauth(self):
+        b = blog.Blogs()
+        b.init()
+        with self.assertRaises(RuntimeError):
+            b.blog.delete(45)
+
+    def test_delete(self):
+        b = blog.Blogs()
+        b.init()
+        b.auth("etillshi", "ko28nA0GsRH2")
+        b.blog.delete(45)
+        self.assertFalse(any(bl["id"]==45 for bl in b.blog.list_user()))
+        self.assertFalse(any(bl["id"] == 45 for bl in b.blog.list()))

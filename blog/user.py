@@ -8,7 +8,6 @@ class User(metaclass=SafeCursorMeta):
         self._blogs = blogs
 
     def get(self, session_id, cursor=None):
-        print("Got session: ", session_id)
         if session_id:
             sql = "SELECT u.* FROM Session s JOIN User u ON s.user_id = u.id WHERE s.id=%s"
             cursor.execute(sql, session_id)

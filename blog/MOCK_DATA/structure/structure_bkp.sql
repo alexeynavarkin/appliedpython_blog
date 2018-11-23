@@ -29,8 +29,6 @@ CREATE TABLE IF NOT EXISTS `blog`.`User` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-CREATE INDEX `User_username` ON `blog`.`User` (`username` ASC);
-
 
 -- -----------------------------------------------------
 -- Table `blog`.`Blog`
@@ -41,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `blog`.`Blog` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `User_id` INT NOT NULL,
-  `deleted` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Blog_User1`
     FOREIGN KEY (`User_id`)
@@ -64,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `blog`.`Post` (
   `post_date` DATETIME NOT NULL,
   `User_id` INT NOT NULL,
   `data` MEDIUMTEXT NOT NULL,
-  `deleted` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Post_User1`
     FOREIGN KEY (`User_id`)
@@ -89,12 +85,12 @@ CREATE TABLE IF NOT EXISTS `blog`.`BlogPost` (
   CONSTRAINT `fk_BlogPost_Blog`
     FOREIGN KEY (`Blog_id`)
     REFERENCES `blog`.`Blog` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_BlogPost_Post1`
     FOREIGN KEY (`Post_id`)
     REFERENCES `blog`.`Post` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -123,12 +119,12 @@ CREATE TABLE IF NOT EXISTS `blog`.`Comment` (
   CONSTRAINT `fk_Comment_Post1`
     FOREIGN KEY (`Post_id`)
     REFERENCES `blog`.`Post` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Comment_Comment1`
     FOREIGN KEY (`Comment_id`)
     REFERENCES `blog`.`Comment` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -145,8 +141,8 @@ CREATE INDEX `fk_Comment_Comment1_idx` ON `blog`.`Comment` (`Comment_id` ASC);
 DROP TABLE IF EXISTS `blog`.`Session` ;
 
 CREATE TABLE IF NOT EXISTS `blog`.`Session` (
-  `id` VARCHAR(36) NOT NULL,
-  `session` VARCHAR(45) NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `session` VARCHAR(45) NOT NULL,
   `User_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Session_User1`
