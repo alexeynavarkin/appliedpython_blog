@@ -1,9 +1,9 @@
-from .blog_tools import SafeCursorMeta, require_auth
+from .blog_tools import SafeCursorMeta
 
 
 class Blog(metaclass=SafeCursorMeta):
     def __init__(self, connection, blogs=None):
-        # TODO: move to parent class
+        # TODO: maybe move to parent class
         self._connection = connection
         self._blogs = blogs
 
@@ -22,6 +22,12 @@ class Blog(metaclass=SafeCursorMeta):
                 raise ValueError("Only owner can modify blog.")
         else:
             raise ValueError("No Blog with such name.")
+
+    def get(self, blog_id, cursor=None):
+        sql = "SELECT * FROM Blog WHERE id=%s AND NOT deleted"
+        cursor.execute(sql, blog_id)
+        blog = cursor.fetchone()
+        return blog
 
     def create(self, blog_name, cursor=None):
         # TODO: probably allow duplicate blog names so allow delete only on key

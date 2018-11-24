@@ -15,6 +15,8 @@ class Blogs:
                                            cursorclass=pymysql.cursors.DictCursor)
         self.user = User(self._connection, self)
         self.blog = Blog(self._connection, self)
+        self.post = Post(self._connection, self)
+        self.comment = Comment(self._connection, self)
         self._session = None
         self._user = None
 

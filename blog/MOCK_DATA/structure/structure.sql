@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `blog`.`Blog` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `User_id` INT NOT NULL,
-  `deleted` TINYINT(1) NULL,
+  `deleted` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Blog_User1`
     FOREIGN KEY (`User_id`)
@@ -64,7 +64,8 @@ CREATE TABLE IF NOT EXISTS `blog`.`Post` (
   `post_date` DATETIME NOT NULL,
   `User_id` INT NOT NULL,
   `data` MEDIUMTEXT NOT NULL,
-  `deleted` TINYINT(1) NULL,
+  `deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `last_modify` TIMESTAMP NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Post_User1`
     FOREIGN KEY (`User_id`)
