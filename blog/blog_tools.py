@@ -6,7 +6,7 @@ def safe_cursor(method):
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         with self._connection.cursor() as cursor:
-            response = method(self, *args, cursor, **kwargs)
+            response = method(self, *args, **kwargs, cursor=cursor)
             self._connection.commit()
             return response
     return wrapper

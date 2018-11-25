@@ -8,7 +8,13 @@ class TestUser(TestCase):
     bm.truncate_table("User")
     bm.apply_csv("User", "blog/MOCK_DATA/User/USER_MOCK_DATA.csv")
 
-    def test_user(self):
+    def test_user_create(self):
+        b = blog.Blogs()
+        b.init()
+        b.user.create("test_user1", "test_password1", "Testname1", "Testlname1")
+        b.auth("test_user1", "test_password1")
+
+    def test_user_create_same_uname(self):
         b = blog.Blogs()
         b.init()
         b.user.create("test_user", "test_password", "Testname", "Testlname")
@@ -19,20 +25,12 @@ class TestUser(TestCase):
         b = blog.Blogs()
         b.init()
         users = b.user.list()
-        self.assertEqual(1001,len(users))
+        self.assertEqual(1002,len(users))
         self.assertTrue(any(user["username"]=="test_user" and \
                             user["password"] == "test_password" and \
                             user["last_name"] == "Testlname" and \
                             user["first_name"] == "Testname"\
                             for user in users))
-
-    def test_user_auth(self):
-        # TODO: check with patch
-        b = blog.Blogs()
-        b.init()
-        b.auth("test_user", "test_password")
-        self.assertTrue(b._session)
-        self.assertTrue(b._user)
 
 
 class TestBlog(TestCase):

@@ -14,7 +14,7 @@ class User(metaclass=SafeCursorMeta):
             if cursor.rowcount:
                 return cursor.fetchone()
             else:
-                raise ValueError("Unauthorised.")
+                raise ValueError("Wrong username or password.")
         else:
             raise RuntimeError("Unauthorised.")
 
@@ -23,7 +23,6 @@ class User(metaclass=SafeCursorMeta):
         cursor.execute(sql, username)
         if cursor.rowcount:
             raise ValueError(f"User with username '{username}' already exists.")
-
         sql = "INSERT INTO User (username, password, first_name, last_name) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, (username, password, first_name, last_name))
 
