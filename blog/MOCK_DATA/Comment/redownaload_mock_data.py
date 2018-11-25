@@ -3,12 +3,12 @@ from requests import get
 from time import sleep
 import csv
 
-#with open("COMMENT_MOCK_DATA", "w") as write_file:
-#    for idx in range(0, 100):
-#        response = get("https://api.mockaroo.com/api/ed04e710?count=1000&key=86b1af70")
-#        data = response.text
-#        write_file.write(data)
-#        print(f"\r{idx+1}/{100} blocks downloaded.", end="", flush=True)
+with open("COMMENT_MOCK_DATA", "w") as write_file:
+    for idx in range(0, 100):
+        response = get("https://api.mockaroo.com/api/ed04e710?count=1000&key=86b1af70")
+        data = response.text
+        write_file.write(data)
+        print(f"\r{idx+1}/{100} blocks downloaded.", end="", flush=True)
 
 with open("COMMENT_MOCK_DATA", "r") as read_file,\
     open("COMMENT_MOCK_DATA.csv", "w") as write_file:

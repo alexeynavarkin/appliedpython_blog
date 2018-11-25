@@ -8,7 +8,7 @@ class Blog(metaclass=SafeCursorMeta):
         self._blogs = blogs
 
     def check_auth(self):
-        # TODO: move to parent class
+        # TODO: maybe move to parent class by meta
         if not self._blogs._user:
             raise RuntimeError("Unauthorised.")
 

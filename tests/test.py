@@ -1,12 +1,11 @@
-from time import sleep
 from unittest import TestCase
-import pymysql
 import blog
 
 
 class TestUser(TestCase):
-    blog.truncate_table("User")
-    blog.apply_csv("User", "blog/MOCK_DATA/User/USER_MOCK_DATA.csv")
+    bm = blog.BlogManager()
+    bm.truncate_table("User")
+    bm.apply_csv("User", "blog/MOCK_DATA/User/USER_MOCK_DATA.csv")
 
     def test_user(self):
         b = blog.Blogs()
@@ -36,8 +35,9 @@ class TestUser(TestCase):
 
 
 class TestBlog(TestCase):
-    blog.truncate_table("Blog")
-    blog.apply_csv("Blog", "blog/MOCK_DATA/Blog/BLOG_MOCK_DATA.csv")
+    bm = blog.BlogManager()
+    bm.truncate_table("Blog")
+    bm.apply_csv("Blog", "blog/MOCK_DATA/Blog/BLOG_MOCK_DATA.csv")
 
     def test_blog(self):
         b = blog.Blogs()
@@ -63,10 +63,11 @@ class TestBlog(TestCase):
 
 
 class TestPost(TestCase):
-    blog.truncate_table("BlogPost")
-    blog.truncate_table("Post")
-    blog.apply_csv("Post", "blog/MOCK_DATA/Post/POST_MOCK_DATA.csv")
-    blog.apply_csv("BlogPost", "blog/MOCK_DATA/BlogPost/BLOGPOST_MOCK_DATA.csv")
+    bm = blog.BlogManager()
+    bm.truncate_table("BlogPost")
+    bm.truncate_table("Post")
+    bm.apply_csv("Post", "blog/MOCK_DATA/Post/POST_MOCK_DATA.csv")
+    bm.apply_csv("BlogPost", "blog/MOCK_DATA/BlogPost/BLOGPOST_MOCK_DATA.csv")
 
     def test_create(self):
         b = blog.Blogs()
@@ -83,20 +84,21 @@ class TestPost(TestCase):
 
 
 class TestComment(TestCase):
-    blog.truncate_table("Comment")
-    blog.apply_csv("Comment", "blog/MOCK_DATA/Comment/COMMENT_MOCK_DATA.csv")
+    bm = blog.BlogManager()
+    bm.truncate_table("Comment")
+    bm.apply_csv("Comment", "blog/MOCK_DATA/Comment/COMMENT_MOCK_DATA.csv")
 
-    # def test_create(self):
-    #     b = blog.Blogs()
-    #     b.init()
-    #     b.auth("btaunton1u", "yudD6qmd5I")
-    #     with self.assertRaises(ValueError):
-    #         b.comment.post(10002, "Test wrong comment")
+    def test_create(self):
+        b = blog.Blogs()
+        b.init()
+        b.auth("btaunton1u", "yudD6qmd5I")
+        with self.assertRaises(ValueError):
+            b.comment.post(10002, "Test wrong comment")
 
     def test_tree(self):
         b = blog.Blogs()
         b.init()
-        b.comment.list_tree(3)
+        print(b.comment.list_tree(3))
 
     def test_list_blog_user(self):
         b = blog.Blogs()

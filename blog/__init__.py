@@ -1,2 +1,3 @@
 from .blogs import Blogs
-from .MOCK_DATA.fill_db import *
+from .settings import *
+from .blog_manager import *
