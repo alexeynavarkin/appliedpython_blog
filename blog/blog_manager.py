@@ -47,6 +47,8 @@ class BlogManager(metaclass=SafeCursorMeta):
                 query = ''
             else:
                 queries.append(line.strip())
+                # print(f"Parsed SQL: '{line.strip()}'.")
+
         return queries
 
 
