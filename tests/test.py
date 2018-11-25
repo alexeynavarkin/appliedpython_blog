@@ -1,9 +1,10 @@
 from unittest import TestCase
 import blog
 
+bm = blog.BlogManager()
+bm.create_structure()
 
 class TestUser(TestCase):
-    bm = blog.BlogManager()
     bm.truncate_table("User")
     bm.apply_csv("User", "blog/MOCK_DATA/User/USER_MOCK_DATA.csv")
 

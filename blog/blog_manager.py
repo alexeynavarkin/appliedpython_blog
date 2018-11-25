@@ -14,11 +14,11 @@ class BlogManager(metaclass=SafeCursorMeta):
                             charset='utf8',
                             cursorclass=pymysql.cursors.DictCursor)
         self.tables =\
-         ({"table_name": "User", "file_name": "User/USER_MOCK_DATA.csv"},
-          {"table_name": "Blog", "file_name": "Blog/BLOG_MOCK_DATA.csv"},
-          {"table_name": "Post", "file_name": "Post/POST_MOCK_DATA.csv"},
-          {"table_name": "BlogPost", "file_name": "BlogPost/BLOGPOST_MOCK_DATA.csv"},
-          {"table_name": "Comment", "file_name": "Comment/COMMENT_MOCK_DATA.csv"},)
+         ({"table_name": "User", "file_name": "blog/MOCK_DATA/User/USER_MOCK_DATA.csv"},
+          {"table_name": "Blog", "file_name": "blog/MOCK_DATA/Blog/BLOG_MOCK_DATA.csv"},
+          {"table_name": "Post", "file_name": "blog/MOCK_DATA/Post/POST_MOCK_DATA.csv"},
+          {"table_name": "BlogPost", "file_name": "blog/MOCK_DATA/BlogPost/BLOGPOST_MOCK_DATA.csv"},
+          {"table_name": "Comment", "file_name": "blog/MOCK_DATA/Comment/COMMENT_MOCK_DATA.csv"},)
 
 
     def parse_sql(self, sql):
@@ -51,7 +51,7 @@ class BlogManager(metaclass=SafeCursorMeta):
 
 
     def create_structure(self, cursor=None):
-        with open("structure/structure.sql") as sql:
+        with open("blog/MOCK_DATA/structure/structure.sql") as sql:
             for query in self.parse_sql(sql.readlines()):
                 cursor.execute(query)
 
@@ -92,9 +92,3 @@ class BlogManager(metaclass=SafeCursorMeta):
     def fill_data(self):
         for table in self.tables:
             self.apply_csv(**table)
-
-
-if __name__ == "__main__":
-    bm = BlogManager()
-    bm.create_structure()
-    bm.fill_data()
