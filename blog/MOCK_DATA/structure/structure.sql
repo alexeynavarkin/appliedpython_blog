@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `Comment` (
   CONSTRAINT `fk_Comment_Comment1`
     FOREIGN KEY (`Comment_id`)
     REFERENCES `Comment` (`id`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
