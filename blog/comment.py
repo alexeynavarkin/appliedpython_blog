@@ -55,6 +55,8 @@ class Comment(metaclass=SafeCursorMeta):
             return comments
 
     def list_blog_user(self, users_ids, blog_id, cursor=None):
+        if not users_ids:
+            raise ValueError("Empty users field")
         sql = "SELECT c.* FROM Blog b " \
               "JOIN BlogPost bp ON b.id=bp.Blog_id " \
               "JOIN Post p ON p.id=bp.Post_id " \
