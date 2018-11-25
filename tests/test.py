@@ -38,13 +38,14 @@ class TestBlog(TestCase):
     bm.truncate_table("Blog")
     bm.apply_csv("Blog", "blog/MOCK_DATA/Blog/BLOG_MOCK_DATA.csv")
 
-    def test_blog(self):
+    def test_blog_edit(self):
         b = blog.Blogs()
         b.init()
         with self.assertRaises(RuntimeError):
             b.blog.edit(2, "Hmmm")
         b.auth("btaunton1u", "yudD6qmd5I")
         b.blog.edit(5, "Hmmm")
+        self.assertEqual("Hmmm", b.blog.get(5)["name"])
 
     def test_delete_unauth(self):
         b = blog.Blogs()
@@ -52,7 +53,7 @@ class TestBlog(TestCase):
         with self.assertRaises(RuntimeError):
             b.blog.delete(45)
 
-    def test_delete(self):
+    def test_delete_list(self):
         b = blog.Blogs()
         b.init()
         b.auth("etillshi", "ko28nA0GsRH2")
@@ -95,11 +96,13 @@ class TestComment(TestCase):
             b.comment.post(10002, "Test wrong comment")
 
     def test_tree(self):
+        # Not real test, but displays output
         b = blog.Blogs()
         b.init()
         print(b.comment.list_tree(3))
 
     def test_list_blog_user(self):
+        # Not real test, but displays output
         b = blog.Blogs()
         b.init()
         print(b.comment.list_blog_user([1,2],2))
