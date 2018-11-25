@@ -33,14 +33,14 @@ DROP TABLE IF EXISTS `Blog` ;
 CREATE TABLE IF NOT EXISTS `Blog` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `User_id` INT NOT NULL,
+  `User_id` INT NULL,
   `deleted` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Blog_User1`
     FOREIGN KEY (`User_id`)
     REFERENCES `User` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Blog_User1_idx` ON `Blog` (`User_id` ASC);
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `Post` (
   CONSTRAINT `fk_Post_User1`
     FOREIGN KEY (`User_id`)
     REFERENCES `User` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Post_User1_idx` ON `Post` (`User_id` ASC);
@@ -84,12 +84,12 @@ CREATE TABLE IF NOT EXISTS `BlogPost` (
     FOREIGN KEY (`Blog_id`)
     REFERENCES `Blog` (`id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_BlogPost_Post1`
     FOREIGN KEY (`Post_id`)
     REFERENCES `Post` (`id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_BlogPost_Blog_idx` ON `BlogPost` (`Blog_id` ASC);
@@ -112,18 +112,18 @@ CREATE TABLE IF NOT EXISTS `Comment` (
   CONSTRAINT `fk_Comment_User1`
     FOREIGN KEY (`User_id`)
     REFERENCES `User` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Comment_Post1`
     FOREIGN KEY (`Post_id`)
     REFERENCES `Post` (`id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Comment_Comment1`
     FOREIGN KEY (`Comment_id`)
     REFERENCES `Comment` (`id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Comment_User1_idx` ON `Comment` (`User_id` ASC);
@@ -146,8 +146,8 @@ CREATE TABLE IF NOT EXISTS `Session` (
   CONSTRAINT `fk_Session_User1`
     FOREIGN KEY (`User_id`)
     REFERENCES `User` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Session_User1_idx` ON `Session` (`User_id` ASC);
