@@ -33,9 +33,13 @@ class User(metaclass=SafeCursorMeta):
             raise ValueError(f"User with username '{username}' not exists.")
         user = cursor.fetchone()
         if user["password"] == password:
-            session_id = str(uuid4())
-            sql = "INSERT INTO Session (user_id, id) VALUES (%s, %s)"
-            cursor.execute(sql, (user["id"], session_id))
+            sql = "SET @id=UUID()"
+            cursor.execute(sql)
+            sql = "INSERT INTO Session (user_id, id) VALUES (%s, @id)"
+            cursor.execute(sql, user["id"])
+            sql = "SELECT @id as id"
+            cursor.execute(sql)
+            session_id = cursor.fetchone()["id"]
             return session_id
         else:
             raise ValueError("User auth failed.")
