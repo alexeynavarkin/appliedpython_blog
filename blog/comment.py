@@ -59,10 +59,7 @@ class Comment(metaclass=SafeCursorMeta):
               "JOIN BlogPost bp ON b.id=bp.Blog_id " \
               "JOIN Post p ON p.id=bp.Post_id " \
               "JOIN Comment c ON c.Post_id=p.id " \
-              "WHERE c.User_id=%s AND b.id=%s"
-        comments = []
-        for user_id in users_ids:
-            cursor.execute(sql, (user_id, blog_id))
-            if cursor.rowcount:
-                comments.extend(cursor.fetchall())
-        return comments
+              f"WHERE c.User_id in ({'%s'+ ',%s'*(len(users_ids)-1)}) AND b.id=%s"
+        cursor.execute(sql, tuple(users_ids) + (blog_id,))
+        return cursor.fetchall()
+
