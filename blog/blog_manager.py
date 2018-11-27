@@ -76,7 +76,7 @@ class BlogManager(metaclass=SafeCursorMeta):
     def replace_empty(self, table):
         for line in table:
             for idx in range(len(line)):
-                if not line[idx]:
+                if line[idx]=="NULL":
                     line[idx] = None
             yield line
 

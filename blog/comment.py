@@ -23,12 +23,12 @@ class Comment(metaclass=SafeCursorMeta):
         except IntegrityError:
             raise ValueError("No post with such id.")
 
-    def comment(self, data, comment_id, cursor=None):
+    def comment(self, comment_id, data, cursor=None):
         self.check_auth()
-        sql = "INSERT INTO Comment (Comment_id, User_id, data) " \
-              "VALUES (%s, %s, %s)"
+        sql = "INSERT INTO Comment (Comment_id, User_id, data, Post_id) " \
+              "VALUES (%s, %s, %s, (SELECT Post_id FROM Comment c WHERE c.id=%s))"
         try:
-            cursor.execute(sql, (comment_id, self._blogs._user["id"], data))
+            cursor.execute(sql, (comment_id, self._blogs._user["id"], data, comment_id))
         except IntegrityError:
             raise ValueError("No comment with such id.")
 
@@ -38,14 +38,15 @@ class Comment(metaclass=SafeCursorMeta):
         return cursor.fetchall()
 
     def list_tree(self, comment_id, cursor=None):
-        sql = "SELECT id, User_id, data FROM Comment WHERE Comment_id=%s"
+        sql = "SELECT * FROM Comment WHERE id=%s"
         cursor.execute(sql, comment_id)
         if cursor.rowcount:
             comments = [cursor.fetchone()]
             comment_ids = [comment_id]
-            sql = "SELECT p.id pid, c.id cid, c.User_id, c.data FROM Comment p JOIN " \
-                  "Comment c ON p.id=c.Comment_id"
-            cursor.execute(sql)
+            sql = "SELECT p.id pid, c.id cid, c.User_id, c.data FROM Comment p " \
+                  "JOIN Comment c ON p.id=c.Comment_id " \
+                  "WHERE p.Post_id=%s AND p.id>=%s"
+            cursor.execute(sql, (comments[0]['Post_id'], comment_id))
             for comment in cursor.fetchall():
                 if comment["pid"] in comment_ids:
                     comments.append(comment)

@@ -73,7 +73,7 @@ class TestPost(TestCase):
         b = blog.Blogs()
         b.init()
         b.auth("btaunton1u", "yudD6qmd5I")
-        b.post.create("Test_post", (1, 2, 3), "TestDATA")
+        b.post.create("Test_post", (1, 2), "TestDATA")
 
     def test_create_wrong(self):
         b = blog.Blogs()
@@ -96,10 +96,13 @@ class TestComment(TestCase):
             b.comment.post(10002, "Test wrong comment")
 
     def test_tree(self):
-        # Not real test, but displays output
         b = blog.Blogs()
         b.init()
-        print(b.comment.list_tree(3))
+        b.auth("btaunton1u", "yudD6qmd5I")
+        b.comment.post(1000,"Root_Comment")
+        b.comment.comment(100002,"Comment_level_1")
+        b.comment.comment(100003,"Comment_level_2")
+        print(b.comment.list_tree(100002))
 
     def test_list_blog_user(self):
         # Not real test, but displays output
