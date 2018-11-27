@@ -102,10 +102,9 @@ class TestComment(TestCase):
         b.comment.post(1000,"Root_Comment")
         b.comment.comment(100002,"Comment_level_1")
         b.comment.comment(100003,"Comment_level_2")
-        print(b.comment.list_tree(100002))
-
-    def test_list_blog_user(self):
-        # Not real test, but displays output
-        b = blog.Blogs()
-        b.init()
-        print(b.comment.list_blog_user([1,2],2))
+        check = [
+            b.comment.get(100002),
+            {'pid': 100002, 'cid': 100003, 'User_id': 67, 'data': 'Comment_level_1'},
+            {'pid': 100003, 'cid': 100004, 'User_id': 67, 'data': 'Comment_level_2'},
+        ]
+        self.assertEqual(check, b.comment.list_tree(100002))

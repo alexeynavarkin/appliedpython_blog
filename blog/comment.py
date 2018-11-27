@@ -14,6 +14,11 @@ class Comment(metaclass=SafeCursorMeta):
         if not self._blogs._user:
             raise RuntimeError("Unauthorised.")
 
+    def get(self, comment_id, cursor=None):
+        sql = "SELECT * FROM Comment WHERE id=%s"
+        cursor.execute(sql, comment_id)
+        return cursor.fetchone()
+
     def post(self, post_id, data, cursor=None):
         self.check_auth()
         sql = "INSERT INTO Comment (Post_id, User_id, data) " \
