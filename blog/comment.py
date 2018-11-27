@@ -38,20 +38,18 @@ class Comment(metaclass=SafeCursorMeta):
         return cursor.fetchall()
 
     def list_tree(self, comment_id, cursor=None):
-        sql = "SELECT * FROM Comment WHERE id=%s"
+        sql = "SELECT id, User_id, data FROM Comment WHERE Comment_id=%s"
         cursor.execute(sql, comment_id)
         if cursor.rowcount:
-            tree = cursor.fetchone()
-            tree["child"] = self.get_child(comment_id)
-            return tree
-
-    def get_child(self, comment_id, cursor=None):
-        sql = "SELECT id, data FROM Comment WHERE Comment_id=%s"
-        cursor.execute(sql, comment_id)
-        if cursor.rowcount:
-            comments = cursor.fetchall()
-            for idx in range(len(comments)):
-                comments[idx]["child"] = self.get_child(comments[idx]["id"])
+            comments = [cursor.fetchone()]
+            comment_ids = [comment_id]
+            sql = "SELECT p.id pid, c.id cid, c.User_id, c.data FROM Comment p JOIN " \
+                  "Comment c ON p.id=c.Comment_id"
+            cursor.execute(sql)
+            for comment in cursor.fetchall():
+                if comment["pid"] in comment_ids:
+                    comments.append(comment)
+                    comment_ids.append(comment["cid"])
             return comments
 
     def list_blog_user(self, users_ids, blog_id, cursor=None):
@@ -64,4 +62,3 @@ class Comment(metaclass=SafeCursorMeta):
               f"WHERE c.User_id in ({'%s'+ ',%s'*(len(users_ids)-1)}) AND b.id=%s"
         cursor.execute(sql, tuple(users_ids) + (blog_id,))
         return cursor.fetchall()
-
