@@ -93,4 +93,5 @@ class BlogManager(metaclass=SafeCursorMeta):
 
     def fill_data(self):
         for table in self.tables:
+            self.truncate_table(table["table_name"])
             self.apply_csv(**table)
