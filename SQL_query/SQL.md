@@ -46,7 +46,7 @@ EXPLAIN:
 5.JOIN
 6.	Comment c2 ON c1.Post_id = c2.Post_id
 7.WHERE
-8.	c1.id=10000;
+8.	c1.id=100000;
 ```
 EXPLAIN:
 ```
